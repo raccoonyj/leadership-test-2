@@ -98,16 +98,23 @@ function App() {
   const handleStart = () => {
     setView('QUIZ');
   };
+// App.tsx 내의 handleAnswer 함수
 
-  const handleAnswer = (type: Indicator) => {
-    setScores(prev => ({ ...prev, [type]: prev[type] + 1 }));
+const handleAnswer = (type: Indicator) => {
+  // 1. 현재 클릭된 버튼의 포커스를 강제로 해제 (잔상 방지)
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
 
-    if (step < questions.length - 1) {
-      setStep(step + 1);
-    } else {
-      setView('RESULT');
-    }
-  };
+  // 2. 점수 계산 및 단계 이동 로직
+  setScores(prev => ({ ...prev, [type]: prev[type] + 1 }));
+
+  if (step < questions.length - 1) {
+    setStep(step + 1);
+  } else {
+    setView('RESULT');
+  }
+};
 
   return (
     <div className="App">
