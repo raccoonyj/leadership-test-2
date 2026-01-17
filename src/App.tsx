@@ -16,7 +16,7 @@ interface Question {
 }
 
 function App() {
-  const [view, setView] = useState<ViewState>('HOME'); // 현재 화면 상태
+  const [view, setView] = useState<ViewState>('HOME');
   const [step, setStep] = useState<number>(0);
   const [scores, setScores] = useState<Record<Indicator, number>>({
     H: 0, E: 0, A: 0, R: 0, T: 0
@@ -95,30 +95,36 @@ function App() {
     },
   ];
 
-  const handleStart = () => {
+ const handleStart = () => {
     setView('QUIZ');
   };
-// App.tsx 내의 handleAnswer 함수
 
-// App.tsx
+  const handleAnswer = (type: Indicator) => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
 
-const handleAnswer = (type: Indicator) => {
-  if (document.activeElement instanceof HTMLElement) {
-    document.activeElement.blur();
-  }
-
-  // 0.2초(200)에서 0.35초(350)로 늘려보세요. 
-  // 이 시간이 길어질수록 '깜빡'임이 줄어들고 리드미컬하게 변합니다.
-  setTimeout(() => {
+    // 1. 먼저 점수를 업데이트합니다. (prev를 사용하여 정확한 상태를 보장)
     setScores(prev => ({ ...prev, [type]: prev[type] + 1 }));
 
-    if (step < questions.length - 1) {
-      setStep(step + 1);
-    } else {
-      setView('RESULT');
-    }
-  }, 350); 
-};
+    // 2. 부드러운 전환을 위해 지연 시간 후 다음 단계로 이동합니다.
+    setTimeout(() => {
+      if (step < questions.length - 1) {
+        setStep(step + 1);
+      } else {
+        setView('RESULT');
+      }
+    }, 350); 
+  };
+
+  // '다시 하기' 클릭 시 상태를 명시적으로 초기화하는 함수
+  const resetTest = () => {
+    setScores({ H: 0, E: 0, A: 0, R: 0, T: 0 });
+    setStep(0);
+    setView('HOME');
+    // 필요한 경우에만 새로고침을 수행하거나, 위 상태 초기화만으로도 충분합니다.
+    // window.location.reload(); 
+  };
 
   return (
     <div className="App">
@@ -132,22 +138,22 @@ const handleAnswer = (type: Indicator) => {
       )}
 
       {/* 2. 질문 화면 */}
-{view === 'QUIZ' && (
-  <div className="card" key={`step-${step}`}> {/* 질문 번호를 key로 주어 카드 전체를 새로 고침 */}
-    <p className="progress">Q {step + 1} / {questions.length}</p>
-    <h2 className="question-text">{questions[step].q}</h2>
-    <div className="button-group">
-      {questions[step].options.map((option, idx) => (
-        <button 
-          key={`btn-${step}-${idx}`} // 질문 번호를 포함한 유니크한 key
-          onClick={() => handleAnswer(option.type)}
-        >
-          {option.text}
-        </button>
-      ))}
-    </div>
-  </div>
-)}
+      {view === 'QUIZ' && (
+        <div className="card" key={`step-${step}`}>
+          <p className="progress">Q {step + 1} / {questions.length}</p>
+          <h2 className="question-text">{questions[step].q}</h2>
+          <div className="button-group">
+            {questions[step].options.map((option, idx) => (
+              <button 
+                key={`btn-${step}-${idx}`}
+                onClick={() => handleAnswer(option.type)}
+              >
+                {option.text}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 3. 결과 화면 */}
       {view === 'RESULT' && (
@@ -155,10 +161,16 @@ const handleAnswer = (type: Indicator) => {
           <h2 className="result-type">분석 완료!</h2>
           <p>아래 결과를 부서원이 한 리더십 설문 결과에 덧그려 주세요.</p>
           <div className="score-details">
-            <h2>H:  {scores.H} <br/>
-            E: {scores.E} <br/>A: {scores.A} <br/>R: {scores.R} <br/>T: {scores.T}<br/></h2>
+            <h2>
+              H: {scores.H} <br/>
+              E: {scores.E} <br/>
+              A: {scores.A} <br/>
+              R: {scores.R} <br/>
+              T: {scores.T}
+            </h2>
           </div>
-          <button className="retry-btn" onClick={() => window.location.reload()}>다시 하기</button>
+          {/* window.location.reload() 대신 resetTest 함수 호출 */}
+          <button className="retry-btn" onClick={resetTest}>다시 하기</button>
         </div>
       )}
     </div>
