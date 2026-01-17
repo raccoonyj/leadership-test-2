@@ -125,7 +125,6 @@ const handleAnswer = (type: Indicator) => {
       {/* 1. 시작 화면 */}
       {view === 'HOME' && (
         <div className="card start-card">
-          <div className="emoji">🚀</div>
           <h1>리더십 설문조사</h1>
           <p>부장님께서 생각하시는 본인의 리더십은 어떤 모습일까요?<br/>10개의 질문을 통해 알아보세요.</p>
           <button className="main-btn" onClick={handleStart}>테스트 시작하기</button>
