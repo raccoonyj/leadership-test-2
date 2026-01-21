@@ -131,8 +131,13 @@ function App() {
       {/* 1. 시작 화면 */}
       {view === 'HOME' && (
         <div className="card start-card">
-          <h1>리더십 설문조사</h1>
-          <p>본부장님께서 생각하시는 본인의 리더십은 어떤 모습일까요?<br/>10개의 질문을 통해 알아보세요.</p>
+          <img 
+            src="/images/hdmf_logo.png" // public 폴더 기준 경로
+            alt="리더십 설문조사 로고"
+            className="intro-logo" // CSS 스타일링을 위한 클래스 추가
+          />
+          <h2>리더십 설문조사</h2>
+          <p>본부장님/단장님께서 생각하시는 본인의 리더십은<br/>어떤 모습일까요?<br/>10개의 질문을 통해 알아보세요.</p>
           <button className="main-btn" onClick={handleStart}>테스트 시작하기</button>
         </div>
       )}
