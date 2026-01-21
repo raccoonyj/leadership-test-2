@@ -186,3 +186,21 @@ button:active {
   color: #ff9e1b;
   min-width: 35px; /* 숫자가 바뀌어도 전체 너비가 흔들리지 않게 고정 */
 }
+
+/* 제목 크기 커스텀 */
+.main-title {
+  font-size: 1.8rem; /* h1보다 작고 h2보다 큰 적당한 크기 */
+  font-weight: 800;
+  color: #333;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  letter-spacing: -0.5px; /* 글자 간격을 살짝 좁히면 더 세련되어 보입니다 */
+  word-break: keep-all; /* 제목이 두 줄이 될 때 단어가 안 깨지게 함 */
+}
+
+/* 모바일에서는 제목이 너무 크면 부담스러울 수 있으니 살짝 줄여줍니다 */
+@media (max-width: 400px) {
+  .main-title {
+    font-size: 1.6rem;
+  }
+}

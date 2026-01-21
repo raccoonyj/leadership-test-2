@@ -67,14 +67,20 @@ function App() {
 
   return (
     <div className="App">
-      {view === 'HOME' && (
-        <div className="card start-card">
-          <img src="/images/hdmf_logo.svg" alt="로고" className="intro-logo" />
-          <h2>리더십 설문조사</h2>
-          <p>본부장님/단장님께서 생각하시는<br/>본인의 리더십을<br/>10개의 질문을 통해 알아보세요.</p>
-          <button className="main-btn" onClick={handleStart}>시작하기</button>
-        </div>
-      )}
+      {/* 1. 시작 화면 */}
+{view === 'HOME' && (
+  <div className="card start-card">
+    <img 
+      src="/images/hdmf_logo.svg" 
+      alt="로고" 
+      className="intro-logo" 
+    />
+    {/* h2 태그를 유지하되 클래스로 크기 제어 */}
+    <h2 className="main-title">리더십 설문조사</h2>
+    <p>본부장님/단장님께서 생각하시는<br/>본인의 리더십을<br/>10개의 질문을 통해 알아보세요.</p>
+    <button className="main-btn" onClick={handleStart}>시작하기</button>
+  </div>
+)}
 
       {view === 'QUIZ' && questions[step] && (
         <div className="card" key={`question-${step}`}>
