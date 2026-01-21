@@ -70,7 +70,7 @@ function App() {
       {view === 'HOME' && (
         <div className="card start-card">
           <img src="/images/hdmf_logo.svg" alt="로고" className="intro-logo" />
-          <h1>리더십 설문조사</h1>
+          <h2>리더십 설문조사</h2>
           <p>본부장님/단장님께서 생각하시는<br/>본인의 리더십을<br/>10개의 질문을 통해 알아보세요.</p>
           <button className="main-btn" onClick={handleStart}>시작하기</button>
         </div>
@@ -90,20 +90,38 @@ function App() {
         </div>
       )}
 
-      {view === 'RESULT' && (
-        <div className="card result-card">
-          <h2 className="result-type">분석 완료!</h2>
-          <p>아래 결과를 본부원이 한 리더십 설문 결과에 덧그려 주세요.</p>
-          <div className="score-details">
-            <p>정도(H): {scores.H}</p>
-            <p>탁월(E): {scores.E}</p>
-            <p>행동(A): {scores.A}</p>
-            <p>존중(R): {scores.R}</p>
-            <p>신뢰(T): {scores.T}</p>
-          </div>
-          <button className="retry-btn" onClick={resetTest}>다시 하기</button>
-        </div>
-      )}
+      {/* 3. 결과 화면 */}
+{view === 'RESULT' && (
+  <div className="card result-card">
+    <h2 className="result-type">분석 완료!</h2>
+    <p>아래 결과를 본부원이 한 리더십 설문 결과에 덧그려 주세요.</p>
+    
+    <div className="score-container">
+      {[
+        { label: '정도(H)', score: scores.H },
+        { label: '탁월(E)', score: scores.E },
+        { label: '행동(A)', score: scores.A },
+        { label: '존중(R)', score: scores.R },
+        { label: '신뢰(T)', score: scores.T },
+      ].map((item) => (
+        <div key={item.label} className="score-bar-group">
+  <div className="label-text">{item.label}</div> {/* 항목 이름은 위쪽에 */}
+  <div className="bar-flex-container">
+    <div className="bar-background">
+      <div 
+        className="bar-fill" 
+        style={{ width: `${(item.score / 4) * 100}%` }}
+      ></div>
+    </div>
+    <span className="score-number">{item.score}점</span> {/* 숫자는 바 옆에 */}
+  </div>
+</div>
+      ))}
+    </div>
+
+    <button className="retry-btn" onClick={resetTest}>다시 하기</button>
+  </div>
+)}
     </div>
   );
 }

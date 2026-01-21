@@ -142,11 +142,47 @@ button:active {
   -webkit-text-fill-color: transparent;
 }
 
-.start-card .emoji { font-size: 4rem; margin-bottom: 20px; }
 .start-card p { color: #666; line-height: 1.6; margin-bottom: 30px; }
 .intro-logo {
   max-width: 120px; /* 로고 최대 너비 설정 */
   height: auto;     /* 비율 유지 */
-  margin-bottom: 10px; /* 하단 여백 추가 */
   /* 필요하다면 추가적인 스타일링 (예: border-radius, box-shadow 등) */
+}
+
+/* 결과 그래프 스타일 */
+.score-container {
+  margin: 30px 0;
+  text-align: left;
+}
+.score-bar-group {
+  margin-bottom: 20px;
+}
+
+.label-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #d67d00;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.bar-flex-container {
+  display: flex;
+  align-items: center; /* 바와 숫자의 높이를 맞춤 */
+  gap: 12px; /* 바와 숫자 사이 간격 */
+}
+
+.bar-background {
+  flex: 1; /* 바가 가능한 넓게 차지하도록 함 */
+  height: 14px;
+  background-color: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.score-number {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ff9e1b;
+  min-width: 35px; /* 숫자가 바뀌어도 전체 너비가 흔들리지 않게 고정 */
 }
