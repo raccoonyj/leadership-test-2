@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 
+// 타입 정의
 type Indicator = 'H' | 'E' | 'A' | 'R' | 'T';
 type ViewState = 'HOME' | 'QUIZ' | 'RESULT';
 
@@ -36,36 +37,31 @@ function App() {
 
   const handleStart = () => {
     setView('QUIZ');
-    setStep(0); // 시작 시 단계 초기화
+    setStep(0);
+    setScores({ H: 0, E: 0, A: 0, R: 0, T: 0 });
   };
 
   const handleAnswer = (type: Indicator) => {
-    // 버튼 포커스 해제
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
-
-    // 1. 점수 먼저 즉시 업데이트
+    // 1. 점수 즉시 반영
     setScores(prev => ({ ...prev, [type]: prev[type] + 1 }));
 
-    // 2. 약간의 지연 후 다음 화면으로 이동
+    // 2. 부드러운 전환을 위해 지연 후 이동
     setTimeout(() => {
-      // 함수형 업데이트를 사용하여 최신 step 값을 보장합니다.
-      setStep(prevStep => {
-        if (prevStep < questions.length - 1) {
-          return prevStep + 1;
+      setStep(prev => {
+        if (prev < questions.length - 1) {
+          return prev + 1;
         } else {
           setView('RESULT');
-          return prevStep;
+          return prev;
         }
       });
-    }, 350); 
+    }, 350);
   };
 
   const resetTest = () => {
-    setScores({ H: 0, E: 0, A: 0, R: 0, T: 0 });
-    setStep(0);
     setView('HOME');
+    setStep(0);
+    setScores({ H: 0, E: 0, A: 0, R: 0, T: 0 });
   };
 
   return (
@@ -80,15 +76,12 @@ function App() {
       )}
 
       {view === 'QUIZ' && questions[step] && (
-        <div className="card" key={`step-${step}`}>
+        <div className="card" key={`question-${step}`}>
           <p className="progress">Q {step + 1} / {questions.length}</p>
           <h2 className="question-text">{questions[step].q}</h2>
           <div className="button-group">
             {questions[step].options.map((option, idx) => (
-              <button 
-                key={`btn-${step}-${idx}`}
-                onClick={() => handleAnswer(option.type)}
-              >
+              <button key={`btn-${idx}`} onClick={() => handleAnswer(option.type)}>
                 {option.text}
               </button>
             ))}
@@ -101,11 +94,11 @@ function App() {
           <h2 className="result-type">분석 완료!</h2>
           <p>아래 결과를 본부원이 한 리더십 설문 결과에 덧그려 주세요.</p>
           <div className="score-details">
-            <p>H(정도): {scores.H}</p>
-            <p>E(탁월): {scores.E}</p>
-            <p>A(행동): {scores.A}</p>
-            <p>R(존중): {scores.R}</p>
-            <p>T(신뢰): {scores.T}</p>
+            <p>정도(H): {scores.H}</p>
+            <p>탁월(E): {scores.E}</p>
+            <p>행동(A): {scores.A}</p>
+            <p>존중(R): {scores.R}</p>
+            <p>신뢰(T): {scores.T}</p>
           </div>
           <button className="retry-btn" onClick={resetTest}>다시 하기</button>
         </div>
