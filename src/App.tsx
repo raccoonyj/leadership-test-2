@@ -132,7 +132,7 @@ function App() {
       {view === 'HOME' && (
         <div className="card start-card">
           <img 
-            src="/images/hdmf_logo.png" // public 폴더 기준 경로
+            src="/images/hdmf_logo.svg" // public 폴더 기준 경로
             alt="리더십 설문조사 로고"
             className="intro-logo" // CSS 스타일링을 위한 클래스 추가
           />
