@@ -100,7 +100,7 @@ function App() {
 {view === 'RESULT' && (
   <div className="card result-card">
     <h2 className="result-type">분석 완료!</h2>
-    <p>아래 결과를 본부원이 한 리더십 설문 결과에 덧그려 주세요.</p>
+    <p>아래 결과를 본부원이 한 리더십 설문 결과에<br/>덧그려 주세요.</p>
     
     <div className="score-container">
       {[
